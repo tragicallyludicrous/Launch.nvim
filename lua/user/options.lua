@@ -51,3 +51,20 @@ vim.cmd [[set iskeyword+=-]]
 
 vim.g.netrw_banner = 0
 vim.g.netrw_mouse = 2
+
+-- Over SSH (e.g. Codespaces), route the system clipboard through OSC 52 so
+-- yanks land in the local terminal's clipboard. Locally on macOS, nvim's
+-- default pbcopy/pbpaste provider already works — don't override it.
+if os.getenv "SSH_TTY" then
+  vim.g.clipboard = {
+    name = "OSC 52",
+    copy = {
+      ["+"] = require("vim.ui.clipboard.osc52").copy "+",
+      ["*"] = require("vim.ui.clipboard.osc52").copy "*",
+    },
+    paste = {
+      ["+"] = require("vim.ui.clipboard.osc52").paste "+",
+      ["*"] = require("vim.ui.clipboard.osc52").paste "*",
+    },
+  }
+end
