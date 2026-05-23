@@ -38,7 +38,7 @@ function M.config()
       desc = "Format",
     },
     { "<leader>lh", function() require("user.lspconfig").toggle_inlay_hints() end, desc = "Hints" },
-    { "<leader>li", "<cmd>LspInfo<cr>", desc = "Info" },
+    { "<leader>li", "<cmd>checkhealth vim.lsp<cr>", desc = "Info" },
     { "<leader>lj", vim.diagnostic.goto_next, desc = "Next Diagnostic" },
     { "<leader>lk", vim.diagnostic.goto_prev, desc = "Prev Diagnostic" },
     { "<leader>ll", vim.lsp.codelens.run, desc = "CodeLens Action" },
