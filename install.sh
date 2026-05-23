@@ -31,6 +31,12 @@ if ! grep -qs '\.local/bin' "$HOME/.bashrc" 2>/dev/null; then
 fi
 export PATH="$HOME/.local/bin:$PATH"
 
+# Ensure SSH (login) shells source .bashrc — by default they only read
+# .bash_profile, so PATH and CS50_* exports from .bashrc are otherwise lost.
+if ! grep -qs 'source ~/.bashrc' "$HOME/.bash_profile" 2>/dev/null; then
+  echo '[ -f ~/.bashrc ] && source ~/.bashrc' >> "$HOME/.bash_profile"
+fi
+
 # 3. Black (used by none-ls for Python formatting); style50/check50/submit50
 #    are already present in the CS50 codespace image.
 if ! command -v black >/dev/null 2>&1; then
