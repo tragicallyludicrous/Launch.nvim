@@ -92,7 +92,7 @@ function M.config()
     winbar = {
       enabled = true,
       name_formatter = function(term) --  term: Terminal
-        return term.count
+        return tostring(term.count or "")
       end,
     },
   }
