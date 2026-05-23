@@ -74,3 +74,22 @@ vim.api.nvim_create_autocmd({ "CursorHold" }, {
     end
   end,
 })
+
+vim.api.nvim_create_autocmd("BufWritePre", {
+  group = vim.api.nvim_create_augroup("UserFormatOnSave", { clear = true }),
+  callback = function(args)
+    if vim.b.disable_format_on_save or vim.g.disable_format_on_save then
+      return
+    end
+    vim.lsp.buf.format {
+      bufnr = args.buf,
+      timeout_ms = 3000,
+      filter = function(client) return client.name ~= "typescript-tools" end,
+    }
+  end,
+})
+
+vim.api.nvim_create_user_command("FormatOnSaveToggle", function()
+  vim.g.disable_format_on_save = not vim.g.disable_format_on_save
+  vim.notify("Format on save: " .. (vim.g.disable_format_on_save and "OFF" or "ON"))
+end, { desc = "Toggle format on save globally" })
