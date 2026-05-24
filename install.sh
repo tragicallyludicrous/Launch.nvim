@@ -37,6 +37,16 @@ if ! grep -qs 'source ~/.bashrc' "$HOME/.bash_profile" 2>/dev/null; then
   echo '[ -f ~/.bashrc ] && source ~/.bashrc' >> "$HOME/.bash_profile"
 fi
 
+# CS50 env loader: reads live CS50_* vars from a running VS Code server
+# process (tokens rotate, so a static snapshot goes stale). Falls back to
+# ~/.cs50env if no VS Code session is running.
+CS50_LOADER="$DOTFILES/scripts/cs50-env-load.sh"
+if [ -f "$CS50_LOADER" ] && ! grep -qs 'cs50-env-load' "$HOME/.bashrc" 2>/dev/null; then
+  # Replace any prior direct sourcing of ~/.cs50env with the loader
+  sed -i '/source ~\/\.cs50env$/d' "$HOME/.bashrc" 2>/dev/null || true
+  echo "[ -f \"$CS50_LOADER\" ] && source \"$CS50_LOADER\"" >> "$HOME/.bashrc"
+fi
+
 # 3. Black (used by none-ls for Python formatting); style50/check50/submit50
 #    are already present in the CS50 codespace image.
 if ! command -v black >/dev/null 2>&1; then
