@@ -68,8 +68,14 @@ if [ -n "$NVIM" ]; then
     fi
     local arg abs
     for arg in "$@"; do
-      [ -e "$arg" ] || continue
-      abs=$(realpath "$arg")
+      if [ -e "$arg" ]; then
+        abs=$(realpath "$arg")
+      else
+        case "$arg" in
+          /*) abs="$arg" ;;
+          *)  abs="$PWD/$arg" ;;
+        esac
+      fi
       command nvim --server "$NVIM" --remote-send \
         '<C-\><C-n>:lua require("user.window").open_in_editor([['"$abs"']])<CR>' \
         >/dev/null 2>&1
