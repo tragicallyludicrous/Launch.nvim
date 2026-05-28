@@ -47,6 +47,18 @@ if [ -f "$CS50_LOADER" ] && ! grep -qs 'cs50-env-load' "$HOME/.bashrc" 2>/dev/nu
   echo "[ -f \"$CS50_LOADER\" ] && source \"$CS50_LOADER\"" >> "$HOME/.bashrc"
 fi
 
+# Inside an nvim :terminal, route `nvim file.py` to the parent session
+# instead of starting a nested nvim. $NVIM is set automatically by nvim.
+if ! grep -qs 'NVIM.*--remote' "$HOME/.bashrc" 2>/dev/null; then
+  cat >> "$HOME/.bashrc" <<'BASHRC_EOF'
+
+# Route `nvim` to the parent session when run inside an nvim :terminal
+if [ -n "$NVIM" ]; then
+  alias nvim='nvim --server "$NVIM" --remote'
+fi
+BASHRC_EOF
+fi
+
 # 3. Black (used by none-ls for Python formatting); style50/check50/submit50
 #    are already present in the CS50 codespace image.
 if ! command -v black >/dev/null 2>&1; then
