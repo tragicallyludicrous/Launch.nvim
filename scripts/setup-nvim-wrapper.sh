@@ -8,8 +8,24 @@ if grep -qsF '# nvim-remote-wrapper' "$HOME/.bashrc" 2>/dev/null; then
   exit 0
 fi
 
-# Remove older alias form if present
-sed -i "/alias nvim='nvim --server/d" "$HOME/.bashrc" 2>/dev/null || true
+# Remove older alias-based block (whole if/alias/fi unit) and any orphan
+# empty if/fi left by earlier buggy versions of this script.
+if [ -f "$HOME/.bashrc" ]; then
+  python3 - <<'PY'
+import re, pathlib
+p = pathlib.Path.home() / ".bashrc"
+text = p.read_text()
+# Strip full legacy block: optional comment + if/alias/fi
+text = re.sub(
+    r"(?:#[^\n]*\n)?if \[ -n \"\$NVIM\" \]; then\s*\n\s*alias nvim=\047nvim --server[^\n]*\n\s*fi\s*\n",
+    "",
+    text,
+)
+# Strip orphan empty if/fi
+text = re.sub(r"(?:#[^\n]*\n)?if \[ -n \"\$NVIM\" \]; then\s*\nfi\s*\n", "", text)
+p.write_text(text)
+PY
+fi
 
 cat >> "$HOME/.bashrc" <<'BASHRC_EOF'
 
