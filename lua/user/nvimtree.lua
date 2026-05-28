@@ -14,6 +14,25 @@ function M.config()
   require("nvim-tree").setup {
     hijack_netrw = false,
     sync_root_with_cwd = true,
+    on_attach = function(bufnr)
+      local api = require "nvim-tree.api"
+      api.config.mappings.default_on_attach(bufnr)
+
+      vim.keymap.set("n", "Y", function()
+        local node = api.tree.get_node_under_cursor()
+        if not node then return end
+        local ok, core = pcall(require, "nvim-tree.core")
+        local explorer = ok and core.get_explorer() or nil
+        local root = explorer and explorer.absolute_path or vim.fn.getcwd()
+        local rel = node.absolute_path
+        if rel:sub(1, #root) == root then
+          rel = rel:sub(#root + 1):gsub("^/", "")
+        end
+        vim.fn.setreg("+", rel)
+        vim.fn.setreg('"', rel)
+        vim.notify("Copied: " .. rel)
+      end, { buffer = bufnr, desc = "Copy path relative to tree root" })
+    end,
     view = {
       relativenumber = true,
     },
