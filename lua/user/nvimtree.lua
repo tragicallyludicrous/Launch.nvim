@@ -32,6 +32,37 @@ function M.config()
         vim.fn.setreg('"', rel)
         vim.notify("Copied: " .. rel)
       end, { buffer = bufnr, desc = "Copy path relative to tree root" })
+
+      vim.keymap.set("n", "gt", function()
+        local node = api.tree.get_node_under_cursor()
+        if not node then return end
+        local path = node.type == "directory" and node.absolute_path
+          or vim.fn.fnamemodify(node.absolute_path, ":h")
+
+        local term_mod = require "toggleterm.terminal"
+        local cmd = "cd " .. vim.fn.shellescape(path)
+
+        local terms = term_mod.get_all() or {}
+        local target
+        for _, t in ipairs(terms) do
+          if t:is_open() then
+            target = t
+            break
+          end
+        end
+        if not target then target = terms[1] end
+
+        if target then
+          if not target:is_open() then target:open() end
+          target:send(cmd, false)
+        else
+          term_mod.Terminal:new({
+            dir = path,
+            direction = "float",
+            close_on_exit = true,
+          }):toggle()
+        end
+      end, { buffer = bufnr, desc = "cd active toggleterm here" })
     end,
     view = {
       relativenumber = true,
