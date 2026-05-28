@@ -93,3 +93,11 @@ vim.api.nvim_create_user_command("FormatOnSaveToggle", function()
   vim.g.disable_format_on_save = not vim.g.disable_format_on_save
   vim.notify("Format on save: " .. (vim.g.disable_format_on_save and "OFF" or "ON"))
 end, { desc = "Toggle format on save globally" })
+
+vim.api.nvim_create_user_command("Cd", function(opts)
+  local path = opts.args
+  path = path:gsub('^"(.*)"$', "%1"):gsub("^'(.*)'$", "%1")
+  path = path:gsub("\\ ", " ")
+  path = vim.fn.expand(path)
+  vim.cmd("cd " .. vim.fn.fnameescape(path))
+end, { nargs = 1, complete = "dir", desc = "cd that accepts quoted/escaped paths" })
