@@ -47,14 +47,34 @@ if [ -f "$CS50_LOADER" ] && ! grep -qs 'cs50-env-load' "$HOME/.bashrc" 2>/dev/nu
   echo "[ -f \"$CS50_LOADER\" ] && source \"$CS50_LOADER\"" >> "$HOME/.bashrc"
 fi
 
-# Inside an nvim :terminal, route `nvim file.py` to the parent session
-# instead of starting a nested nvim. $NVIM is set automatically by nvim.
-if ! grep -qs 'NVIM.*--remote' "$HOME/.bashrc" 2>/dev/null; then
+# Inside an nvim :terminal, open files in the parent session's editor area
+# (not the terminal pane). $NVIM is set automatically by nvim.
+if ! grep -qsF '# nvim-remote-wrapper' "$HOME/.bashrc" 2>/dev/null; then
+  # Strip any older alias form so it doesn't shadow the new function
+  sed -i "/alias nvim='nvim --server/d" "$HOME/.bashrc" 2>/dev/null || true
   cat >> "$HOME/.bashrc" <<'BASHRC_EOF'
 
-# Route `nvim` to the parent session when run inside an nvim :terminal
+# nvim-remote-wrapper
 if [ -n "$NVIM" ]; then
-  alias nvim='nvim --server "$NVIM" --remote'
+  nvim() {
+    if [ -z "$NVIM" ]; then
+      command nvim "$@"
+      return
+    fi
+    if [ $# -eq 0 ]; then
+      command nvim --server "$NVIM" --remote-send \
+        '<C-\><C-n>:lua require("user.window").focus_editor()<CR>' >/dev/null 2>&1
+      return
+    fi
+    local arg abs
+    for arg in "$@"; do
+      [ -e "$arg" ] || continue
+      abs=$(realpath "$arg")
+      command nvim --server "$NVIM" --remote-send \
+        '<C-\><C-n>:lua require("user.window").open_in_editor([['"$abs"']])<CR>' \
+        >/dev/null 2>&1
+    done
+  }
 fi
 BASHRC_EOF
 fi

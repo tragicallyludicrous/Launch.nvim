@@ -32,6 +32,11 @@ function M.smart_tree()
   end
 end
 
+function M.open_in_editor(path)
+  M.focus_editor()
+  vim.cmd.edit(vim.fn.fnameescape(path))
+end
+
 function M.focus_editor()
   for _, win in ipairs(vim.api.nvim_list_wins()) do
     if vim.api.nvim_win_is_valid(win) then
