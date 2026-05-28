@@ -35,7 +35,12 @@ function M.config()
 
   local exec_toggle = function(opts)
     local Terminal = require("toggleterm.terminal").Terminal
-    local term = Terminal:new { cmd = opts.cmd, count = opts.count, direction = opts.direction }
+    local term = Terminal:new {
+      cmd = opts.cmd,
+      count = opts.count,
+      direction = opts.direction,
+      dir = require("user.window").active_file_dir(),
+    }
     term:toggle(opts.size, opts.direction)
   end
 

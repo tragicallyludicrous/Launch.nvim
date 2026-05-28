@@ -1,5 +1,23 @@
 local M = {}
 
+function M.active_file_dir()
+  local cur_buf = vim.api.nvim_get_current_buf()
+  local name = vim.api.nvim_buf_get_name(cur_buf)
+  if name ~= "" and vim.bo[cur_buf].buftype == "" then
+    return vim.fn.fnamemodify(name, ":p:h")
+  end
+  for _, win in ipairs(vim.api.nvim_list_wins()) do
+    if vim.api.nvim_win_is_valid(win) then
+      local b = vim.api.nvim_win_get_buf(win)
+      local n = vim.api.nvim_buf_get_name(b)
+      if n ~= "" and vim.bo[b].buftype == "" then
+        return vim.fn.fnamemodify(n, ":p:h")
+      end
+    end
+  end
+  return vim.fn.getcwd()
+end
+
 function M.smart_tree()
   local ok_api, api = pcall(require, "nvim-tree.api")
   local ok_view, view = pcall(require, "nvim-tree.view")
@@ -58,7 +76,10 @@ function M.smart_terminal()
     if #terms > 0 then
       terms[1]:open()
     else
-      vim.cmd "ToggleTerm"
+      term_mod.Terminal:new({
+        count = 1,
+        dir = M.active_file_dir(),
+      }):toggle()
     end
     return
   end
