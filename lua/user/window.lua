@@ -34,7 +34,10 @@ end
 
 function M.open_in_editor(path)
   M.focus_editor()
-  vim.cmd.edit(vim.fn.fnameescape(path))
+  vim.cmd.edit { args = { path } }
+  if vim.bo.filetype == "" and vim.api.nvim_buf_get_name(0) ~= "" then
+    vim.cmd "filetype detect"
+  end
 end
 
 function M.focus_editor()
