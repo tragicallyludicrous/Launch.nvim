@@ -30,6 +30,13 @@ function M.focus_editor()
 end
 
 function M.smart_terminal()
+  -- Count prefix (e.g. 5<C-\>) → defer to default per-terminal toggle
+  local count = vim.v.count
+  if count > 0 then
+    vim.cmd(count .. "ToggleTerm")
+    return
+  end
+
   local ok, term_mod = pcall(require, "toggleterm.terminal")
   if not ok then
     vim.cmd "ToggleTerm"

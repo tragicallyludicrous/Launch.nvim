@@ -13,7 +13,7 @@ function M.config()
       { "<leader>q", "<cmd>confirm q<CR>", desc = "Quit" },
       { "<leader>Q", "<cmd>confirm qa<CR>", desc = "Quit All" },
       { "<leader>h", "<cmd>nohlsearch<CR>", desc = "NOHL" },
-      { "<leader>;", "<cmd>tabnew | terminal<CR>", desc = "Term" },
+      { "<leader>;", "<cmd>TermSelect<CR>", desc = "Pick Terminal" },
       { "<leader>v", "<cmd>vsplit<CR>", desc = "Split" },
       { "<leader>w", function() require("user.window").focus_editor() end, desc = "Focus Editor" },
       { "<leader>b", group = "Buffers" },
