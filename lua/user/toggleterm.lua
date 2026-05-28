@@ -118,6 +118,11 @@ function M.config()
     vim.api.nvim_buf_set_keymap(0, "t", "<m-k>", [[<C-\><C-n><C-W>k]], opts)
     vim.api.nvim_buf_set_keymap(0, "t", "<m-l>", [[<C-\><C-n><C-W>l]], opts)
   end
+
+  -- Smart terminal toggle: open+focus → focus → close
+  vim.keymap.set({ "n", "t" }, [[<C-\>]], function()
+    require("user.window").smart_terminal()
+  end, { noremap = true, silent = true, desc = "Smart terminal toggle" })
 end
 
 return M

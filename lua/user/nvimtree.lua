@@ -6,7 +6,7 @@ local M = {
 function M.config()
   local wk = require "which-key"
   wk.add {
-    { "<leader>e", "<cmd>NvimTreeToggle<CR>", desc = "Explorer" },
+    { "<leader>e", function() require("user.window").smart_tree() end, desc = "Explorer" },
   }
 
   local icons = require "user.icons"
