@@ -121,7 +121,7 @@ function M.config()
       enable = true,
       debounce_delay = 15,
       update_root = true,
-      ignore_list = {},
+      ignore_list = { "toggleterm", "TelescopePrompt", "alpha" },
     },
 
     diagnostics = {
