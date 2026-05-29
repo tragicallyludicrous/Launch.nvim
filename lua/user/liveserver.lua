@@ -4,9 +4,11 @@ local M = {
   event = "VeryLazy",
 }
 
-function M.config()
-  require("live-server").setup {}
+function M.init()
+  vim.g.live_server = {}
+end
 
+function M.config()
   local wk = require "which-key"
   wk.add {
     { "<leader>L", group = "Live Server" },
