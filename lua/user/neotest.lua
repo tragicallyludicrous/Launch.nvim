@@ -9,10 +9,7 @@ local M = {
     -- language specific tests
     "marilari88/neotest-vitest",
     "nvim-neotest/neotest-python",
-    "nvim-neotest/neotest-plenary",
-    "rouge8/neotest-rust",
     "lawrence-laz/neotest-zig",
-    "rcasia/neotest-bash",
   },
 }
 

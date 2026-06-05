@@ -16,10 +16,6 @@ function M.config()
     use_magit_keybindings = false,
     -- Change the default way of opening neogit
     kind = "tab",
-    -- Change the default way of opening the commit popup
-    commit_popup = {
-      kind = "split",
-    },
     -- Change the default way of opening popups
     popup = {
       kind = "split",

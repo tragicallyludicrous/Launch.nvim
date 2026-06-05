@@ -18,25 +18,11 @@ function M.active_file_dir()
   return vim.fn.getcwd()
 end
 
-function M.smart_tree()
-  local ok_api, api = pcall(require, "nvim-tree.api")
-  local ok_view, view = pcall(require, "nvim-tree.view")
-  if not (ok_api and ok_view) then return end
-
-  if not view.is_visible() then
-    api.tree.open()
-  elseif vim.bo.filetype == "NvimTree" then
-    api.tree.close()
-  else
-    api.tree.focus()
-  end
-end
-
-function M.open_in_editor(path)
-  M.focus_editor()
-  vim.cmd.edit { args = { path } }
-  if vim.bo.filetype == "" and vim.api.nvim_buf_get_name(0) ~= "" then
-    vim.cmd "filetype detect"
+function M.minifiles_toggle()
+  if not MiniFiles.close() then
+    local name = vim.api.nvim_buf_get_name(0)
+    local path = (name ~= "" and vim.bo.buftype == "") and name or vim.fn.getcwd()
+    MiniFiles.open(path)
   end
 end
 
@@ -46,13 +32,23 @@ function M.focus_editor()
       local buf = vim.api.nvim_win_get_buf(win)
       local ft = vim.bo[buf].filetype
       local bt = vim.bo[buf].buftype
-      if ft ~= "NvimTree" and ft ~= "toggleterm" and bt ~= "terminal" and bt ~= "prompt" then
+      if ft ~= "minifiles" and ft ~= "toggleterm" and bt ~= "terminal" and bt ~= "prompt" then
         vim.api.nvim_set_current_win(win)
         return
       end
     end
   end
   vim.notify("No editor window found", vim.log.levels.WARN)
+end
+
+-- Used by the remote nvim wrapper (scripts/setup-nvim-wrapper.sh) to open a
+-- file from the codespace shell into the editor window.
+function M.open_in_editor(path)
+  M.focus_editor()
+  vim.cmd.edit { args = { path } }
+  if vim.bo.filetype == "" and vim.api.nvim_buf_get_name(0) ~= "" then
+    vim.cmd "filetype detect"
+  end
 end
 
 function M.smart_terminal()
@@ -84,10 +80,12 @@ function M.smart_terminal()
     if #terms > 0 then
       terms[1]:open()
     else
-      term_mod.Terminal:new({
-        count = 1,
-        dir = M.active_file_dir(),
-      }):toggle()
+      term_mod.Terminal
+        :new({
+          count = 1,
+          dir = M.active_file_dir(),
+        })
+        :toggle()
     end
     return
   end

@@ -15,7 +15,13 @@ function M.config()
       { "<leader>h", "<cmd>nohlsearch<CR>", desc = "NOHL" },
       { "<leader>;", "<cmd>TermSelect<CR>", desc = "Pick Terminal" },
       { "<leader>v", "<cmd>vsplit<CR>", desc = "Split" },
-      { "<leader>w", function() require("user.window").focus_editor() end, desc = "Focus Editor" },
+      {
+        "<leader>w",
+        function()
+          require("user.window").focus_editor()
+        end,
+        desc = "Focus Editor",
+      },
       { "<leader>b", group = "Buffers" },
       { "<leader>d", group = "Debug" },
       { "<leader>f", group = "Find" },
@@ -57,7 +63,7 @@ function M.config()
     show_keys = false,
     disable = {
       buftypes = {},
-      filetypes = { "TelescopePrompt" },
+      filetypes = { "minipick" },
     },
   }
 end

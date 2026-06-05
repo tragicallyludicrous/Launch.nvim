@@ -1,8 +1,5 @@
 local M = {
   "nvim-lualine/lualine.nvim",
-  dependencies = {
-    "AndreM222/copilot-lualine",
-  },
 }
 
 function M.config()
@@ -10,13 +7,13 @@ function M.config()
     options = {
       component_separators = { left = "", right = "" },
       section_separators = { left = "", right = "" },
-      ignore_focus = { "NvimTree" },
+      ignore_focus = { "minifiles" },
     },
     sections = {
       lualine_a = {},
       lualine_b = { "branch" },
       lualine_c = { "diagnostics" },
-      lualine_x = { "copilot", "filetype" },
+      lualine_x = { "filetype" },
       lualine_y = { "progress" },
       lualine_z = {},
     },

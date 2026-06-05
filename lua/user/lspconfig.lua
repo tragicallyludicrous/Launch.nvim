@@ -1,11 +1,19 @@
 local M = {
   "neovim/nvim-lspconfig",
   event = { "BufReadPre", "BufNewFile" },
-  dependencies = {
-    {
-      "folke/neodev.nvim",
-    },
-  },
+}
+
+-- Single source of truth for enabled servers (mason.lua reads M.servers).
+M.servers = {
+  "lua_ls",
+  "cssls",
+  "html",
+  "ts_ls",
+  "eslint",
+  "pyright",
+  "bashls",
+  "jsonls",
+  "yamlls",
 }
 
 local function lsp_keymaps(bufnr)
@@ -30,14 +38,17 @@ function M.config()
     {
       "<leader>lf",
       function()
-        vim.lsp.buf.format {
-          async = true,
-          filter = function(client) return client.name ~= "typescript-tools" end,
-        }
+        require("conform").format { async = true, lsp_format = "fallback" }
       end,
       desc = "Format",
     },
-    { "<leader>lh", function() require("user.lspconfig").toggle_inlay_hints() end, desc = "Hints" },
+    {
+      "<leader>lh",
+      function()
+        require("user.lspconfig").toggle_inlay_hints()
+      end,
+      desc = "Hints",
+    },
     { "<leader>li", "<cmd>checkhealth vim.lsp<cr>", desc = "Info" },
     { "<leader>lj", vim.diagnostic.goto_next, desc = "Next Diagnostic" },
     { "<leader>lk", vim.diagnostic.goto_prev, desc = "Prev Diagnostic" },
@@ -58,9 +69,9 @@ function M.config()
     signs = {
       text = {
         [vim.diagnostic.severity.ERROR] = icons.diagnostics.Error,
-        [vim.diagnostic.severity.WARN]  = icons.diagnostics.Warning,
-        [vim.diagnostic.severity.HINT]  = icons.diagnostics.Hint,
-        [vim.diagnostic.severity.INFO]  = icons.diagnostics.Information,
+        [vim.diagnostic.severity.WARN] = icons.diagnostics.Warning,
+        [vim.diagnostic.severity.HINT] = icons.diagnostics.Hint,
+        [vim.diagnostic.severity.INFO] = icons.diagnostics.Information,
       },
     },
     virtual_text = false,
@@ -83,11 +94,13 @@ function M.config()
     callback = function(args)
       local bufnr = args.buf
       local client = vim.lsp.get_client_by_id(args.data.client_id)
-      if not client then return end
+      if not client then
+        return
+      end
 
       lsp_keymaps(bufnr)
 
-      if client:supports_method("textDocument/inlayHint") then
+      if client:supports_method "textDocument/inlayHint" then
         vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
       end
     end,
@@ -101,24 +114,9 @@ function M.config()
   local capabilities = vim.lsp.protocol.make_client_capabilities()
   capabilities.textDocument.completion.completionItem.snippetSupport = true
 
-  -- Servers to enable
-  local servers = {
-    "lua_ls",
-    "cssls",
-    "html",
-    "ts_ls",
-    "eslint",
-    "pyright",
-    "bashls",
-    "jsonls",
-    "yamlls",
-  }
-
-  -- Initialize neodev before lua_ls config is loaded
-  require("neodev").setup {}
-
-  -- Configure each server (settings only; on_attach handled by autocmd above)
-  for _, server in ipairs(servers) do
+  -- Configure each server (settings only; on_attach handled by autocmd above).
+  -- The server list lives at module level (M.servers) so mason can reuse it.
+  for _, server in ipairs(M.servers) do
     local opts = { capabilities = capabilities }
 
     local require_ok, settings = pcall(require, "user.lspsettings." .. server)
@@ -130,7 +128,7 @@ function M.config()
   end
 
   -- Enable all configured servers
-  vim.lsp.enable(servers)
+  vim.lsp.enable(M.servers)
 end
 
 return M

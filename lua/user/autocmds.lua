@@ -7,17 +7,12 @@ vim.api.nvim_create_autocmd({ "BufWinEnter" }, {
 vim.api.nvim_create_autocmd({ "FileType" }, {
   pattern = {
     "netrw",
-    "Jaq",
     "qf",
     "git",
     "help",
     "man",
     "lspinfo",
-    "oil",
-    "spectre_panel",
-    "lir",
-    "DressingSelect",
-    "tsplayground",
+    "checkhealth",
     "",
   },
   callback = function()
@@ -61,31 +56,10 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
   end,
 })
 
-vim.api.nvim_create_autocmd({ "CursorHold" }, {
+-- Rooter: cd to the nearest project root on entering a file (replaces project.nvim).
+vim.api.nvim_create_autocmd({ "BufEnter" }, {
   callback = function()
-    local status_ok, luasnip = pcall(require, "luasnip")
-    if not status_ok then
-      return
-    end
-    if luasnip.expand_or_jumpable() then
-      -- ask maintainer for option to make this silent
-      -- luasnip.unlink_current()
-      vim.cmd [[silent! lua require("luasnip").unlink_current()]]
-    end
-  end,
-})
-
-vim.api.nvim_create_autocmd("BufWritePre", {
-  group = vim.api.nvim_create_augroup("UserFormatOnSave", { clear = true }),
-  callback = function(args)
-    if vim.b.disable_format_on_save or vim.g.disable_format_on_save then
-      return
-    end
-    vim.lsp.buf.format {
-      bufnr = args.buf,
-      timeout_ms = 3000,
-      filter = function(client) return client.name ~= "typescript-tools" end,
-    }
+    require("user.pick").root()
   end,
 })
 

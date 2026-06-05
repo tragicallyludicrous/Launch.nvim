@@ -85,7 +85,7 @@ fi
 BASHRC_EOF
 fi
 
-# 3. Black (used by none-ls for Python formatting); style50/check50/submit50
+# 3. Black (used by conform for Python formatting); style50/check50/submit50
 #    are already present in the CS50 codespace image.
 if ! command -v black >/dev/null 2>&1; then
   pipx install black 2>/dev/null || pip install --user black 2>/dev/null || true

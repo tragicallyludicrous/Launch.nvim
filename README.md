@@ -1,95 +1,37 @@
-```
-    ✯                              .°•    |    
-    __     °    •                __      / \   
-   / /   ____ ___  ______  _____/ /_    | O |  
-  / /   / __ `/ / / / __ \/ ___/ __ \   | O |  
- / /___/ /_/ / /_/ / / / / /__/ / / /  /| | |\ 
-/_____/\__,_/\__,_/_/ /_/\___/_/ /_/  /_(.|.)_\
-```
+# Launch.nvim
 
-This config will provide a modular starting point for anyone looking to use Neovim as their IDE. It is meant to be simple and easy to understand and extend. Use it as a base for your own config or just take individual pieces.
+A personal, [mini.nvim](https://github.com/nvim-mini/mini.nvim)-centric Neovim
+config for **Neovim 0.12+**.
 
-All the included plugins are pinned to a version that ensures they are compatible and will not update potentially introducing errors into your config. For every Neovim release I will update this repo along with the community to keep it up to date with the newest versions.
+It started from LunarVim's Launch.nvim (the flat `spec()` + lazy.nvim layout in
+`init.lua` / `lua/user/`) and was refactored around `mini.nvim`: a single plugin
+supplies the picker, file explorer, completion, snippets, dashboard, surround,
+comments, icons and more — keeping the install small and each file easy to read.
 
-As I mentioned, this config is meant as a starting point for people new to Neovim who want a familiar IDE experience. The config has a very simple structure that makes it easy to add new plugins.
+## What's inside
 
-## Install Neovim 0.9
+- **Manager:** [lazy.nvim](https://github.com/folke/lazy.nvim) — `:Lazy`
+- **Find / explore:** `mini.pick` · `mini.files`
+- **Completion:** `mini.completion` + `mini.snippets`
+- **LSP:** native `vim.lsp` + [mason](https://github.com/mason-org/mason.nvim) + `lazydev`
+- **Format:** [conform.nvim](https://github.com/stevearc/conform.nvim) on save (`:FormatOnSaveToggle`)
+- **Git:** `gitsigns` + `neogit` · **Test:** `neotest` · **Debug:** `nvim-dap` · **REPL:** `iron.nvim`
+- **Editing:** `mini.surround` / `mini.comment` / `mini.pairs` / `mini.ai` / `mini.move`
+- **Tuned for:** Python (iron / neotest / dap), web (live-server), and CS50 / NAND2Tetris HDL
 
-You can install Neovim with your package manager e.g. brew, apt, pacman etc.. bus remember that when you update your packages Neovim may be upgraded to a newer version.
+## Install
 
-If you would like to make sure Neovim only updates when you want it to than I recommend installing from source: [instructions](https://github.com/neovim/neovim/wiki/Installing-Neovim#install-from-source)
-
-## Install the config
-
-Make sure to remove or backup your current `nvim` directory
+Needs Neovim 0.11+ (developed on 0.12), `git`, `ripgrep`, and a
+[Nerd Font](https://www.nerdfonts.com/). Back up any existing config first.
 
 ```sh
-git clone https://github.com/LunarVim/Launch.nvim.git ~/.config/nvim
+git clone https://github.com/tragicallyludicrous/Launch.nvim.git ~/.config/nvim
+nvim   # lazy.nvim installs everything on first launch
 ```
 
-Run `nvim` and wait for the plugins to be installed
+`install.sh` sets up the CS50 codespace toolchain (black, etc.) if you need it.
 
-**NOTE** (You will notice treesitter pulling in a bunch of parsers the next time you open Neovim)
+## Keys
 
-## Get healthy
-
-Open `nvim` and enter the following:
-
-```
-:checkhealth
-```
-
-You'll probably notice you don't have support for copy/paste also that python and node haven't been setup
-
-So let's fix that
-
-First we'll fix copy/paste
-
-- On mac `pbcopy` should be builtin
-
-- On Ubuntu
-
-  ```sh
-  sudo apt install xsel # for X11
-  sudo apt install wl-clipboard # for wayland
-  ```
-
-Next we need to install python support (node is optional)
-
-- Neovim python support
-
-  ```sh
-  pip install pynvim
-  ```
-
-- Neovim node support
-
-  ```sh
-  npm i -g neovim
-  ```
-
-We will also need `ripgrep` for Telescope to work:
-
-- Ripgrep
-
-  ```sh
-  sudo apt install ripgrep
-  ```
-
----
-
-**NOTE** make sure you have [node](https://nodejs.org/en/) installed, I recommend a node manager like [fnm](https://github.com/Schniz/fnm).
-
-## Fonts
-
-I recommend using the following repo to get a "Nerd Font" (Font that supports icons)
-
-[getnf](https://github.com/ronniedroid/getnf)
-
-**NOTE** Some are already setup as examples, remove them if you want
-
----
-
-> The computing scientist's main challenge is not to get confused by the complexities of his own making.
-
-\- Edsger W. Dijkstra
+Leader is `Space`. See **[CHEATSHEET.md](CHEATSHEET.md)** for the full reference,
+or just press `<leader>` in normal mode to browse the bindings via which-key.

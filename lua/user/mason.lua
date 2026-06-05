@@ -1,21 +1,11 @@
 local M = {
-  "williamboman/mason-lspconfig.nvim",
+  "mason-org/mason-lspconfig.nvim",
   dependencies = {
-    "williamboman/mason.nvim",
+    "mason-org/mason.nvim",
   },
 }
 
 function M.config()
-  local servers = {
-    "lua_ls",
-    "cssls",
-    "html",
-    "ts_ls",
-    "pyright",
-    "bashls",
-    "jsonls",
-  }
-
   require("mason").setup {
     ui = {
       border = "rounded",
@@ -23,7 +13,10 @@ function M.config()
   }
 
   require("mason-lspconfig").setup {
-    ensure_installed = servers,
+    -- Reuse the list defined in user.lspconfig (single source of truth). We
+    -- enable servers ourselves via vim.lsp.enable, so don't double-enable here.
+    ensure_installed = require("user.lspconfig").servers,
+    automatic_enable = false,
   }
 end
 
