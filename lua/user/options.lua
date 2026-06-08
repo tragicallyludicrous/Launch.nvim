@@ -57,7 +57,17 @@ vim.g.netrw_mouse = 2
 -- Over SSH (e.g. Codespaces), route the system clipboard through OSC 52 so
 -- yanks land in the local terminal's clipboard. Locally on macOS, nvim's
 -- default pbcopy/pbpaste provider already works — don't override it.
+--
+-- Paste deliberately does NOT use OSC 52's terminal read: an OSC 52 paste asks
+-- the terminal for the *local* machine's clipboard, so `p` would ignore what you
+-- just yanked inside nvim and always return the host clipboard. Most terminals
+-- disable OSC 52 read anyway. Instead, paste returns nvim's own register, so
+-- yank→paste round-trips internally while copies still go out via OSC 52.
+-- (This is the pattern recommended in `:h clipboard-osc52`.)
 if os.getenv "SSH_TTY" then
+  local function paste()
+    return { vim.fn.split(vim.fn.getreg "", "\n"), vim.fn.getregtype "" }
+  end
   vim.g.clipboard = {
     name = "OSC 52",
     copy = {
@@ -65,8 +75,8 @@ if os.getenv "SSH_TTY" then
       ["*"] = require("vim.ui.clipboard.osc52").copy "*",
     },
     paste = {
-      ["+"] = require("vim.ui.clipboard.osc52").paste "+",
-      ["*"] = require("vim.ui.clipboard.osc52").paste "*",
+      ["+"] = paste,
+      ["*"] = paste,
     },
   }
 end
