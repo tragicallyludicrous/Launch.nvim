@@ -1,8 +1,9 @@
-local ensure_installed = { "lua", "markdown", "markdown_inline", "bash", "python" }
+local ensure_installed =
+  { "lua", "markdown", "markdown_inline", "bash", "python", "javascript", "html", "css", "json" }
 
 -- Filetypes (not parser names) on which to start treesitter highlighting/indent.
 -- Note: shell scripts are filetype "sh", and markdown_inline is injection-only.
-local filetypes = { "lua", "markdown", "sh", "bash", "python" }
+local filetypes = { "lua", "markdown", "sh", "bash", "python", "javascript", "html", "css", "json" }
 
 local M = {
   "nvim-treesitter/nvim-treesitter",
