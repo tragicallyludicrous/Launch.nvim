@@ -1,0 +1,305 @@
+{
+  "p5 sketch skeleton": {
+    "prefix": "p5sketch",
+    "body": [
+      "function setup() {",
+      "  createCanvas(${1:400}, ${2:400});",
+      "}",
+      "",
+      "function draw() {",
+      "  background(${3:220});",
+      "  $0",
+      "}"
+    ],
+    "description": "Basic p5.js sketch (setup + draw)"
+  },
+  "p5 sketch skeleton (WEBGL)": {
+    "prefix": "p5sketchwebgl",
+    "body": [
+      "function setup() {",
+      "  createCanvas(${1:400}, ${2:400}, WEBGL);",
+      "}",
+      "",
+      "function draw() {",
+      "  background(${3:220});",
+      "  $0",
+      "}"
+    ],
+    "description": "p5.js sketch in 3D/WEBGL mode"
+  },
+  "p5 instance mode": {
+    "prefix": "p5instance",
+    "body": [
+      "const ${1:sketch} = (p) => {",
+      "  p.setup = () => {",
+      "    p.createCanvas(${2:400}, ${3:400});",
+      "  };",
+      "",
+      "  p.draw = () => {",
+      "    p.background(${4:220});",
+      "    $0",
+      "  };",
+      "};",
+      "",
+      "new p5(${1:sketch});"
+    ],
+    "description": "p5.js instance-mode sketch (no globals)"
+  },
+  "p5 setup": {
+    "prefix": "setup",
+    "body": ["function setup() {", "  createCanvas(${1:400}, ${2:400});", "  $0", "}"],
+    "description": "p5.js setup() function"
+  },
+  "p5 draw": {
+    "prefix": "draw",
+    "body": ["function draw() {", "  $0", "}"],
+    "description": "p5.js draw() loop"
+  },
+  "p5 async load (2.0)": {
+    "prefix": "p5load",
+    "body": [
+      "let ${1:img};",
+      "",
+      "async function setup() {",
+      "  createCanvas(${2:400}, ${3:400});",
+      "  ${1:img} = await loadImage('${4:assets/image.png}');",
+      "  $0",
+      "}"
+    ],
+    "description": "p5.js 2.0 async asset loading (replaces preload)"
+  },
+  "p5 windowResized": {
+    "prefix": "windowResized",
+    "body": ["function windowResized() {", "  resizeCanvas(${1:windowWidth}, ${2:windowHeight});", "  $0", "}"],
+    "description": "p5.js windowResized() handler"
+  },
+  "p5 createCanvas": {
+    "prefix": "cc",
+    "body": ["createCanvas(${1:400}, ${2:400});$0"],
+    "description": "p5.js createCanvas()"
+  },
+  "p5 background": {
+    "prefix": "bg",
+    "body": ["background(${1:220});$0"],
+    "description": "p5.js background()"
+  },
+  "p5 frameRate": {
+    "prefix": "framerate",
+    "body": ["frameRate(${1:60});$0"],
+    "description": "p5.js frameRate()"
+  },
+  "p5 ellipse": {
+    "prefix": "ellipse",
+    "body": ["ellipse(${1:x}, ${2:y}, ${3:w}, ${4:h});$0"],
+    "description": "p5.js ellipse()"
+  },
+  "p5 circle": {
+    "prefix": "circle",
+    "body": ["circle(${1:x}, ${2:y}, ${3:d});$0"],
+    "description": "p5.js circle()"
+  },
+  "p5 rect": {
+    "prefix": "rect",
+    "body": ["rect(${1:x}, ${2:y}, ${3:w}, ${4:h});$0"],
+    "description": "p5.js rect()"
+  },
+  "p5 line": {
+    "prefix": "line",
+    "body": ["line(${1:x1}, ${2:y1}, ${3:x2}, ${4:y2});$0"],
+    "description": "p5.js line()"
+  },
+  "p5 point": {
+    "prefix": "point",
+    "body": ["point(${1:x}, ${2:y});$0"],
+    "description": "p5.js point()"
+  },
+  "p5 triangle": {
+    "prefix": "triangle",
+    "body": ["triangle(${1:x1}, ${2:y1}, ${3:x2}, ${4:y2}, ${5:x3}, ${6:y3});$0"],
+    "description": "p5.js triangle()"
+  },
+  "p5 arc": {
+    "prefix": "arc",
+    "body": ["arc(${1:x}, ${2:y}, ${3:w}, ${4:h}, ${5:0}, ${6:PI});$0"],
+    "description": "p5.js arc()"
+  },
+  "p5 fill": {
+    "prefix": "fill",
+    "body": ["fill(${1:255});$0"],
+    "description": "p5.js fill()"
+  },
+  "p5 noFill": {
+    "prefix": "nofill",
+    "body": ["noFill();$0"],
+    "description": "p5.js noFill()"
+  },
+  "p5 stroke": {
+    "prefix": "stroke",
+    "body": ["stroke(${1:0});$0"],
+    "description": "p5.js stroke()"
+  },
+  "p5 noStroke": {
+    "prefix": "nostroke",
+    "body": ["noStroke();$0"],
+    "description": "p5.js noStroke()"
+  },
+  "p5 strokeWeight": {
+    "prefix": "strokeweight",
+    "body": ["strokeWeight(${1:1});$0"],
+    "description": "p5.js strokeWeight()"
+  },
+  "p5 colorMode": {
+    "prefix": "colormode",
+    "body": ["colorMode(${1|HSB,RGB|}, ${2:360}, ${3:100}, ${4:100}, ${5:1});$0"],
+    "description": "p5.js colorMode()"
+  },
+  "p5 push/pop": {
+    "prefix": "pushpop",
+    "body": ["push();", "$0", "pop();"],
+    "description": "p5.js push()/pop() transform block"
+  },
+  "p5 translate": {
+    "prefix": "translate",
+    "body": ["translate(${1:x}, ${2:y});$0"],
+    "description": "p5.js translate()"
+  },
+  "p5 rotate": {
+    "prefix": "rotate",
+    "body": ["rotate(${1:angle});$0"],
+    "description": "p5.js rotate()"
+  },
+  "p5 scale": {
+    "prefix": "scale",
+    "body": ["scale(${1:s});$0"],
+    "description": "p5.js scale()"
+  },
+  "p5 text": {
+    "prefix": "text",
+    "body": ["text('${1:label}', ${2:x}, ${3:y});$0"],
+    "description": "p5.js text()"
+  },
+  "p5 textSize": {
+    "prefix": "textsize",
+    "body": ["textSize(${1:16});$0"],
+    "description": "p5.js textSize()"
+  },
+  "p5 textAlign": {
+    "prefix": "textalign",
+    "body": ["textAlign(${1|CENTER,LEFT,RIGHT|}, ${2|CENTER,TOP,BOTTOM,BASELINE|});$0"],
+    "description": "p5.js textAlign()"
+  },
+  "p5 random": {
+    "prefix": "random",
+    "body": ["random(${1:min}, ${2:max})$0"],
+    "description": "p5.js random()"
+  },
+  "p5 map": {
+    "prefix": "map",
+    "body": ["map(${1:value}, ${2:start1}, ${3:stop1}, ${4:start2}, ${5:stop2})$0"],
+    "description": "p5.js map()"
+  },
+  "p5 constrain": {
+    "prefix": "constrain",
+    "body": ["constrain(${1:n}, ${2:low}, ${3:high})$0"],
+    "description": "p5.js constrain()"
+  },
+  "p5 dist": {
+    "prefix": "dist",
+    "body": ["dist(${1:x1}, ${2:y1}, ${3:x2}, ${4:y2})$0"],
+    "description": "p5.js dist()"
+  },
+  "p5 lerp": {
+    "prefix": "lerp",
+    "body": ["lerp(${1:start}, ${2:stop}, ${3:amt})$0"],
+    "description": "p5.js lerp()"
+  },
+  "p5 noise": {
+    "prefix": "noise",
+    "body": ["noise(${1:x})$0"],
+    "description": "p5.js Perlin noise()"
+  },
+  "p5 createVector": {
+    "prefix": "createvector",
+    "body": ["createVector(${1:x}, ${2:y});$0"],
+    "description": "p5.js createVector()"
+  },
+  "p5 mousePressed": {
+    "prefix": "mousePressed",
+    "body": ["function mousePressed() {", "  $0", "}"],
+    "description": "p5.js mousePressed() handler"
+  },
+  "p5 mouseDragged": {
+    "prefix": "mouseDragged",
+    "body": ["function mouseDragged() {", "  $0", "}"],
+    "description": "p5.js mouseDragged() handler"
+  },
+  "p5 mouseReleased": {
+    "prefix": "mouseReleased",
+    "body": ["function mouseReleased() {", "  $0", "}"],
+    "description": "p5.js mouseReleased() handler"
+  },
+  "p5 mouseMoved": {
+    "prefix": "mouseMoved",
+    "body": ["function mouseMoved() {", "  $0", "}"],
+    "description": "p5.js mouseMoved() handler"
+  },
+  "p5 mouseClicked": {
+    "prefix": "mouseClicked",
+    "body": ["function mouseClicked() {", "  $0", "}"],
+    "description": "p5.js mouseClicked() handler"
+  },
+  "p5 keyPressed": {
+    "prefix": "keyPressed",
+    "body": ["function keyPressed() {", "  $0", "}"],
+    "description": "p5.js keyPressed() handler"
+  },
+  "p5 keyReleased": {
+    "prefix": "keyReleased",
+    "body": ["function keyReleased() {", "  $0", "}"],
+    "description": "p5.js keyReleased() handler"
+  },
+  "p5 loadImage (await)": {
+    "prefix": "loadimage",
+    "body": ["${1:img} = await loadImage('${2:assets/image.png}');$0"],
+    "description": "p5.js loadImage() — await inside async setup (p5 2.0)"
+  },
+  "p5 image": {
+    "prefix": "image",
+    "body": ["image(${1:img}, ${2:x}, ${3:y});$0"],
+    "description": "p5.js image()"
+  },
+  "p5 beginShape/endShape": {
+    "prefix": "beginshape",
+    "body": ["beginShape();", "vertex(${1:x}, ${2:y});", "$0", "endShape(${3:CLOSE});"],
+    "description": "p5.js beginShape()/vertex()/endShape()"
+  },
+  "p5 saveCanvas": {
+    "prefix": "savecanvas",
+    "body": ["saveCanvas('${1:sketch}', '${2|png,jpg|}');$0"],
+    "description": "p5.js saveCanvas()"
+  },
+  "p5 class (particle)": {
+    "prefix": "p5class",
+    "body": [
+      "class ${1:Particle} {",
+      "  constructor(x, y) {",
+      "    this.pos = createVector(x, y);",
+      "    this.vel = createVector(0, 0);",
+      "    this.acc = createVector(0, 0);",
+      "  }",
+      "",
+      "  update() {",
+      "    this.vel.add(this.acc);",
+      "    this.pos.add(this.vel);",
+      "    this.acc.mult(0);",
+      "  }",
+      "",
+      "  show() {",
+      "    $0",
+      "    circle(this.pos.x, this.pos.y, ${2:8});",
+      "  }",
+      "}"
+    ],
+    "description": "p5.js particle/agent class template"
+  }
+}

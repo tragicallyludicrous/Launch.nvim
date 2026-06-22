@@ -109,6 +109,17 @@ function M.config()
     options = { use_as_default_explorer = false },
     windows = { preview = true, width_focus = 30, width_preview = 40 },
   }
+  -- Hybrid relative line numbers in the explorer windows (focus + preview).
+  -- mini.files opens windows with style="minimal" (numbers off); set them on
+  -- open. Internal window updates don't pass style=, so the options persist.
+  vim.api.nvim_create_autocmd("User", {
+    pattern = "MiniFilesWindowOpen",
+    callback = function(args)
+      local win_id = args.data.win_id
+      vim.wo[win_id].number = true
+      vim.wo[win_id].relativenumber = true
+    end,
+  })
   vim.ui.select = MiniPick.ui_select
 
   -- Dashboard (replaces snacks) ---------------------------------------------
