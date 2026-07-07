@@ -91,6 +91,14 @@ if ! command -v black >/dev/null 2>&1; then
   pipx install black 2>/dev/null || pip install --user black 2>/dev/null || true
 fi
 
+# 3b. External CLIs the config needs but that aren't Neovim plugins. Both
+#     scripts are idempotent and install into ~/.local/bin (no sudo):
+#       - tree-sitter: nvim-treesitter's `main` branch compiles parsers with it;
+#         without it parsers silently re-download on every launch (no highlight).
+#       - ripgrep: powers the picker's live-grep; :checkhealth warns without it.
+bash "$DOTFILES/scripts/setup-tree-sitter-cli.sh" || true
+bash "$DOTFILES/scripts/setup-ripgrep.sh" || true
+
 # 4. Headless plugin install so first interactive launch is snappy
 nvim --headless "+Lazy! sync" +qa 2>/dev/null || true
 
