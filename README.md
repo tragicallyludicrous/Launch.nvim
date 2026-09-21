@@ -15,7 +15,7 @@ comments, icons and more — keeping the install small and each file easy to rea
 - **Completion:** `mini.completion` + `mini.snippets`
 - **LSP:** native `vim.lsp` + [mason](https://github.com/mason-org/mason.nvim) + `lazydev`
 - **Format:** [conform.nvim](https://github.com/stevearc/conform.nvim) on save (`:FormatOnSaveToggle`)
-- **Git:** `gitsigns` + `neogit` · **Test:** `neotest` · **Debug:** `nvim-dap` · **REPL:** `iron.nvim`
+- **Git:** `gitsigns` + `neogit` · **Test:** `neotest` · **Debug:** `nvim-dap` + `nvim-dap-view` · **REPL:** `iron.nvim`
 - **Editing:** `mini.surround` / `mini.comment` / `mini.pairs` / `mini.ai` / `mini.move`
 - **Tuned for:** Python (iron / neotest / dap), web (live-server), and CS50 / NAND2Tetris HDL
 
@@ -35,3 +35,4 @@ nvim   # lazy.nvim installs everything on first launch
 
 Leader is `Space`. See **[CHEATSHEET.md](CHEATSHEET.md)** for the full reference,
 or just press `<leader>` in normal mode to browse the bindings via which-key.
+The debugger has its own deep-dive: **[DEBUGGING.md](DEBUGGING.md)**.

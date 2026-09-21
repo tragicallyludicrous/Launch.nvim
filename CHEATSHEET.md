@@ -99,17 +99,26 @@ Format-on-save is on by default; toggle with `:FormatOnSaveToggle`.
 | `<leader>gl` | Blame line |
 | `<leader>gd` | Diff against HEAD |
 
-## Debug — nvim-dap (`<leader>d`)
+## Debug — nvim-dap + nvim-dap-view (`<leader>d`)
 
 | Key | Action |
 |---|---|
 | `<leader>db` / `<leader>dB` | Toggle / conditional breakpoint |
 | `<leader>dc` | Continue / start |
 | `<leader>di` / `<leader>do` / `<leader>dO` | Step into / over / out |
-| `<leader>du` | Toggle DAP UI |
-| `<leader>dr` | Toggle REPL |
+| `<leader>de` | Eval expression (hover float; visual = the selection) |
+| `<leader>dw` | Watch expression (visual = the selection) |
+| `<leader>du` | Toggle DAP View |
+| `<leader>dr` | Go to REPL |
 | `<leader>dt` | Terminate |
 | `<leader>dl` | Run last |
+
+**Inside the dap-view window:** `S` `W` `B` `T` `E` `R` `C` jump to Scopes / Watches /
+Breakpoints / Threads / Exceptions / REPL / Console · `]v`/`[v` next/prev tab · `<CR>` expand
+or jump · `s` set a variable's value · `g?` help.
+
+Full walkthrough — UI panes, REPL commands, Python configs, troubleshooting — in
+**[DEBUGGING.md](DEBUGGING.md)**.
 
 ## Test — neotest (`<leader>t`)
 
